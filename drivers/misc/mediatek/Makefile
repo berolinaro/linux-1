@@ -13,7 +13,7 @@
 
 #$(call all-subdir-src-or-makefile)
 MTK_PLATFORM := $(subst ",,$(CONFIG_MTK_PLATFORM))
-subdir-ccflags-y += -Werror
+subdir-ccflags-y += -Werror $(call cc-option,-Wno-error=switch-bool) $(call cc-option,-Wno-error=bool-compare) $(call cc-option,-Wno-error=discarded-array-qualifiers) $(call cc-option,-Wno-error=logical-not-parentheses) $(call cc-option,-Wno-error=misleading-indentation) $(call cc-option,-Wno-error=unused-const-variable)
 subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/include
 subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/include/mt-plat/$(MTK_PLATFORM)/include
 subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/include/mt-plat
@@ -77,7 +77,6 @@ obj-$(CONFIG_MTK_I2C)  += i2c/
 endif
 obj-$(CONFIG_MTK_LEDS)	+= leds/
 obj-$(CONFIG_MTK_VIBRATOR)	+= vibrator/
-obj-$(CONFIG_MTK_SM100)	+= tc1_interface/vib_drv/
 obj-$(CONFIG_MTK_ACCDET)	+= accdet/
 obj-$(CONFIG_MTK_ECCCI_C2K) += c2k_usb/
 obj-y += irtx/
