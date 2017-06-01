@@ -52,11 +52,9 @@ ifneq ($(strip $(TARGET_NO_KERNEL)),true)
     BUILT_SYSTEMIMAGE := $(call intermediates-dir-for,PACKAGING,systemimage)/system.img
 
   ifeq ($(KERNEL_CROSS_COMPILE),)
-  ifeq ($(TARGET_ARCH), arm64)
-    KERNEL_CROSS_COMPILE := $(KERNEL_ROOT_DIR)/$(TARGET_TOOLS_PREFIX)
-  else
-    KERNEL_CROSS_COMPILE := $(KERNEL_ROOT_DIR)/prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-eabi-$(TARGET_GCC_VERSION)/bin/arm-eabi-
-  endif
+    ABS_TARGET_TOOLS_PREFIX = $(shell cd `dirname $(TARGET_TOOLS_PREFIX)` && pwd)/$(shell basename $(TARGET_TOOLS_PREFIX))
+    UNRESOLVED_KERNEL_TOOLS_PREFIX ?= $(ABS_TARGET_TOOLS_PREFIX)
+    KERNEL_CROSS_COMPILE := $(UNRESOLVED_KERNEL_TOOLS_PREFIX)
   endif
   ifeq ($(wildcard $(TARGET_PREBUILT_KERNEL)),)
     KERNEL_OUT ?= $(if $(filter /% ~%,$(TARGET_OUT_INTERMEDIATES)),,$(KERNEL_ROOT_DIR)/)$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
